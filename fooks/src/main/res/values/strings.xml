@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Fooks</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="app_id">1472347376314770</string>
 </resources>

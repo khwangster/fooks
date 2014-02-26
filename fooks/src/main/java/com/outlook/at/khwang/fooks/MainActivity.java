@@ -18,6 +18,7 @@ import com.facebook.model.*;
 
 
 public class MainActivity extends Activity {
+    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +26,17 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+            // Add the fragment on initial activity setup
+            mainFragment = new MainFragment();
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, mainFragment)
                     .commit();
+        } else {
+            // Or set the fragment from restored state info
+            mainFragment = (MainFragment) getFragmentManager()
+                    .findFragmentById(android.R.id.content);
         }
-
-
-
     }
 
     @Override
@@ -54,20 +59,21 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
 
-        public PlaceholderFragment() {
+
+    public static class MainFragment extends Fragment {
+
+        public MainFragment() {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+        public View onCreateView(LayoutInflater inflater,
+                                 ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_main, container, false);
+            return view;
         }
+
     }
 
 }
