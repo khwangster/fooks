@@ -3,3 +3,4 @@
 /.idea
 *.class
 .DS_Store
+/fooks/build/

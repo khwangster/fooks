@@ -1,7 +1,6 @@
 package com.outlook.at.khwang.fooks;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,35 +9,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import android.content.Intent;
 
 import com.facebook.*;
-import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
-
-import java.util.Arrays;
 
 
 public class MainActivity extends Activity {
-    private MainFragment mainFragment;
+    private LoginFragment loginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (Session.getActiveSession() != null) {
+            Log.i("MainActivity", "not null session!");
+
+        }
+
         if (savedInstanceState == null) {
             // Add the fragment on initial activity setup
-            mainFragment = new MainFragment();
+            loginFragment = new LoginFragment();
             getFragmentManager()
                     .beginTransaction()
-                    .add(android.R.id.content, mainFragment)
+                    .add(android.R.id.content, loginFragment)
                     .commit();
         } else {
             // Or set the fragment from restored state info
-            mainFragment = (MainFragment) getFragmentManager()
+            loginFragment = (LoginFragment) getFragmentManager()
                     .findFragmentById(android.R.id.content);
         }
 
@@ -72,15 +72,15 @@ public class MainActivity extends Activity {
 
 
 
-    public static class MainFragment extends Fragment {
-        public MainFragment() {
+    public static class LoginFragment extends Fragment {
+        public LoginFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater,
                                  ViewGroup container,
                                  Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_main, container, false);
+            View view = inflater.inflate(R.layout.fragment_login, container, false);
             LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
             authButton.setFragment(this);
 
@@ -134,14 +134,14 @@ public class MainActivity extends Activity {
 
 
         private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-            Log.i("MainFragment", "onSessionStateChange");
-            if (state.isOpened()) {
-                Log.i("MainFragment", "Logged in...");
-            } else if (state.isClosed()) {
-                Log.i("MainFragment", "Logged out...");
+            if (exception != null) {
+                Log.e("LoginFragment", exception.toString());
             }
+
+
         }
 
     }
+
 
 }
